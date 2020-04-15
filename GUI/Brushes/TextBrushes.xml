@@ -41,4 +41,11 @@
     </Styles>
   </Brush>
 
+  <Brush Name="ModSettings.EditValue.Description" Font="FiraSansExtraCondensed-Regular" TextHorizontalAlignment="Left" TextVerticalAlignment="Center" FontSize="24" >
+    <Styles>
+      <Style Name="Default" FontColor="#FFCF9AFF" TextBlur="0"  TextShadowAngle="0" TextAlphaFactor="0.8" TextGlowColor="#FFFFFF00" TextOutlineColor="#FFFFFF00"
+             TextOutlineAmount="0" TextGlowRadius="0" />
+    </Styles>
+  </Brush>
+
 </Brushes>

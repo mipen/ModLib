@@ -18,7 +18,7 @@
 
             <!-- Description -->
             <RichTextWidget HeightSizePolicy="CoverChildren" WidthSizePolicy="StretchToParent" Text="@DescriptionText" VerticalAlignment="Top"
-                            HorizontalAlignment="Center" Brush="ModSettings.Setting.Text" MarginTop="15" MarginRight="10" MarginLeft="10"/>
+                            HorizontalAlignment="Center" Brush="ModSettings.EditValue.Description" MarginTop="15" MarginRight="10" MarginLeft="10"/>
 
             <!-- Text Input -->
             <Widget DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="Fixed" SuggestedHeight="70" MarginRight="30" MarginLeft="30"

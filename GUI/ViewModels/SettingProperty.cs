@@ -42,7 +42,7 @@ namespace ModLib.GUI.ViewModels
         [DataSourceProperty]
         public bool IsFloatVisible => SettingType == SettingType.Float;
         [DataSourceProperty]
-        public bool IsBoolVisible { get => SettingType == SettingType.Bool; set { } }
+        public bool IsBoolVisible => SettingType == SettingType.Bool;
         [DataSourceProperty]
         public bool IsEnabled
         {
@@ -70,6 +70,8 @@ namespace ModLib.GUI.ViewModels
                     return true;
             }
         }
+        [DataSourceProperty]
+        public bool IsValueFieldVisible => !IsBoolVisible;
 
         [DataSourceProperty]
         public float FloatValue
@@ -161,9 +163,9 @@ namespace ModLib.GUI.ViewModels
             get
             {
                 if (SettingType == SettingType.Int)
-                    return IntValue.ToString();
+                    return ((int)Property.GetValue(SettingsInstance)).ToString("0");
                 else if (SettingType == SettingType.Float)
-                    return FloatValue.ToString("0.00");
+                    return ((float)Property.GetValue(SettingsInstance)).ToString("0.00");
                 else
                     return "";
             }

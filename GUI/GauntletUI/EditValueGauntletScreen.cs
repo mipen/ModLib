@@ -30,7 +30,7 @@ namespace ModLib.GUI.GauntletUI
 
             gauntletLayer = new GauntletLayer(4500);
             gauntletLayer.InputRestrictions.SetInputRestrictions(true, InputUsageMask.All);
-            gauntletLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("GenericCampaignPanelsGameKeyCategory"));
+            gauntletLayer.Input.RegisterHotKeyCategory(HotKeyManager.GetCategory("ChatLogHotKeyCategory"));
             ScreenManager.TrySetFocus(gauntletLayer);
             vm = new EditValueVM(settingProperty);
             AddLayer(gauntletLayer);
@@ -40,10 +40,13 @@ namespace ModLib.GUI.GauntletUI
         protected override void OnFrameTick(float dt)
         {
             base.OnFrameTick(dt);
-            // || gauntletLayer.Input.IsGameKeyReleased(34)
             if (gauntletLayer.Input.IsHotKeyReleased("Exit"))
             {
                 vm?.ExecuteCancel();
+            }
+            else if (gauntletLayer.Input.IsHotKeyReleased("FinalizeChat"))
+            {
+                vm?.ExecuteDone();
             }
         }
 

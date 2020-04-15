@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using TaleWorlds.GauntletUI;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
+using TaleWorlds.TwoDimension;
 
 namespace ModLib.GUI.Views
 {
     public class EditValueTextWidget : EditableTextWidget
     {
+        private EditableText editableText = null;
+
         [DataSourceProperty]
         public SettingType SettingType { get; set; } = SettingType.Float;
         [DataSourceProperty]
@@ -21,6 +20,7 @@ namespace ModLib.GUI.Views
 
         public EditValueTextWidget(UIContext context) : base(context)
         {
+            editableText = (EditableText)typeof(EditableTextWidget).GetField("_editableText", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic).GetValue(this);
         }
 
         public override void HandleInput(IReadOnlyList<int> lastKeysPressed)
@@ -35,7 +35,12 @@ namespace ModLib.GUI.Views
                     int key = lastKeysPressed[i];
                     if (Enum.IsDefined(typeof(KeyCodes), key))
                     {
-                        if (SettingType == SettingType.Float)
+                        if (key == (int)KeyCodes.Minus)
+                        {
+                            if (editableText.SelectedTextBegin != 0)
+                                continue;
+                        }
+                        else if (SettingType == SettingType.Float)
                         {
                             //Handle input for float types
                             if (key == (int)KeyCodes.Decimal)
@@ -62,10 +67,13 @@ namespace ModLib.GUI.Views
                         {
                             string format = SettingType == SettingType.Int ? "0" : "0.00";
                             RealText = newVal.ToString(format);
+                            editableText.SetCursorPosition(0, true);
                         }
                     }
                 }
             }
+            else
+                base.HandleInput(lastKeysPressed);
         }
 
 
@@ -81,7 +89,9 @@ namespace ModLib.GUI.Views
             Seven = 55,
             Eight = 56,
             Nine = 57,
-            Decimal = 46
+            Decimal = 46,
+            Minus = 45,
+            Backspace = 8
         }
     }
 }

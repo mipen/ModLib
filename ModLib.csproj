@@ -100,7 +100,7 @@
   <ItemGroup>
     <Compile Include="Attributes\SettingPropertyAttribute.cs" />
     <Compile Include="Attributes\SettingPropertyGroupAttribute.cs" />
-    <Compile Include="ComplexAction.cs" />
+    <Compile Include="UndoRedoStack\ComplexAction.cs" />
     <Compile Include="Debugging\DebugVars.cs" />
     <Compile Include="ExtensionMethods\ExceptionExtensionMethods.cs" />
     <Compile Include="ExtensionMethods\ICollectionExtensions.cs" />
@@ -132,9 +132,11 @@
     <Compile Include="Settings.cs" />
     <Compile Include="GUI\ViewModels\ModSettingsScreenVM.cs" />
     <Compile Include="FileDatabase\SettingType.cs" />
-    <Compile Include="SetValueAction.cs" />
+    <Compile Include="UndoRedoStack\SetFloatSettingProperty.cs" />
+    <Compile Include="UndoRedoStack\SetIntSettingProperty.cs" />
+    <Compile Include="UndoRedoStack\SetValueAction.cs" />
     <Compile Include="SmeltingHelper.cs" />
-    <Compile Include="UndoRedoStack.cs" />
+    <Compile Include="UndoRedoStack\UndoRedoStack.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="GUI\Brushes\DividerBrushes.xml" />

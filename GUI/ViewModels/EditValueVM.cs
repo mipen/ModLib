@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TaleWorlds.Engine.Screens;
+﻿using TaleWorlds.Engine.Screens;
 using TaleWorlds.Library;
 
 namespace ModLib.GUI.ViewModels
@@ -69,14 +64,35 @@ namespace ModLib.GUI.ViewModels
             base.RefreshValues();
 
             TitleText = $"Edit \"{SettingProperty.Name}\"";
-            DescriptionText = $"Edit the value for \"{SettingProperty.Name}\".\nThe minimum value is {SettingProperty.SettingAttribute.EditableMinValue} and the maximum value is {SettingProperty.SettingAttribute.EditableMaxValue}.";
+            string format = SettingProperty.SettingType == SettingType.Int ? "0" : "0.00";
+            DescriptionText = $"Edit the value for \"{SettingProperty.Name}\".\nThe minimum value is {SettingProperty.SettingAttribute.EditableMinValue.ToString(format)} and the maximum value is {SettingProperty.SettingAttribute.EditableMaxValue.ToString(format)}.";
             TextInput = SettingProperty.ValueString;
             OnPropertyChanged("SettingType");
         }
 
-        private void ExecuteDone()
+        public void ExecuteDone()
         {
-            //TODO::
+            if (SettingProperty.SettingType == SettingType.Int)
+            {
+                int val;
+                if (int.TryParse(TextInput, out val))
+                {
+                    SettingProperty.URS.Do(new SetIntSettingProperty(SettingProperty, val));
+                    SettingProperty.URS.Do(new SetValueAction<int>(new Ref(SettingProperty.Property, SettingProperty.SettingsInstance), val));
+                    SettingProperty.OnPropertyChanged("ValueString");
+                }
+            }
+            else if (SettingProperty.SettingType == SettingType.Float)
+            {
+                float val;
+                if (float.TryParse(TextInput, out val))
+                {
+                    SettingProperty.URS.Do(new SetFloatSettingProperty(SettingProperty, val));
+                    SettingProperty.URS.Do(new SetValueAction<float>(new Ref(SettingProperty.Property, SettingProperty.SettingsInstance), val));
+                    SettingProperty.OnPropertyChanged("ValueString");
+                }
+            }
+            ScreenManager.PopScreen();
         }
 
         public void ExecuteCancel()

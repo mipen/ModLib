@@ -83,9 +83,9 @@
 
             <!-- Value text/button -->
             <ButtonWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="CoverChildren" MarginLeft="60" HorizontalAlignment="Right" DoNotPassEventsToChildren="true"
-                          IsEnabled="@IsEnabled" VerticalAlignment="Center" Brush="ModLib.Settings.Value.Display" Command.Click="OnValueClick">
+                          IsEnabled="@IsEnabled" VerticalAlignment="Center" Brush="ModLib.Settings.Value.Display" Command.Click="OnValueClick" IsVisible="@IsValueFieldVisible">
               <Children>
-                <EditableTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Right"
+                <RichTextWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" HorizontalAlignment="Right"
                                 IsEnabled="@IsEnabled" Text="@ValueString" VerticalAlignment="Center" Brush="ModSettings.Setting.Text"/>
               </Children>
             </ButtonWidget>
