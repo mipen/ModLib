@@ -54,23 +54,23 @@ namespace ModLib
         /// <summary>
         /// Saves the given object instance which inherits ISerialisableFile to an xml file.
         /// </summary>
-        /// <param name="moduleName">The folder name of the module to save to.</param>
+        /// <param name="moduleFolderName">The folder name of the module to save to.</param>
         /// <param name="sf">Instance of the object to save to file.</param>
         /// <param name="location">Indicates whether to save the file to the ModuleData/Loadables folder or to the mod's Config folder in Bannerlord's 'My Documents' directory.</param>
-        public static bool SaveToFile(string moduleName, ISerialisableFile sf, Location location = Location.Modules)
+        public static bool SaveToFile(string moduleFolderName, ISerialisableFile sf, Location location = Location.Modules)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(sf.ID))
                     throw new Exception($"FileDatabase tried to save an object of type {sf.GetType().FullName} but the ID value was null.");
-                if (string.IsNullOrWhiteSpace(moduleName))
+                if (string.IsNullOrWhiteSpace(moduleFolderName))
                     throw new Exception($"FileDatabase tried to save an object of type {sf.GetType().FullName} with ID {sf.ID} but the module folder name given was null or empty.");
 
                 //Gets the intended path for the file.
-                string path = GetPathForModule(moduleName, location);
+                string path = GetPathForModule(moduleFolderName, location);
 
                 if (location == Location.Modules && !Directory.Exists(path))
-                    throw new Exception($"FileDatabase cannot find the module named {moduleName}");
+                    throw new Exception($"FileDatabase cannot find the module named {moduleFolderName}");
                 else if (location == Location.Configs && !Directory.Exists(path))
                     Directory.CreateDirectory(path);
 
@@ -104,13 +104,13 @@ namespace ModLib
             }
             catch (Exception ex)
             {
-                ModDebug.ShowError($"Cannot create the file for type {sf.GetType().FullName} with ID {sf.ID} for module {moduleName}:", "Error saving to file", ex);
+                ModDebug.ShowError($"Cannot create the file for type {sf.GetType().FullName} with ID {sf.ID} for module {moduleFolderName}:", "Error saving to file", ex);
                 return false;
             }
         }
 
         /// <summary>
-        /// Deletes the file for the given module.
+        /// Deletes the file for the given fileName and module.
         /// </summary>
         /// <param name="moduleName">The folder name of the module to delete the file for.</param>
         /// <param name="fileName">The file name of the file to be deleted.</param>
@@ -134,6 +134,18 @@ namespace ModLib
                 File.Delete(filePath);
 
             return successful;
+        }
+
+        /// <summary>
+        /// Deletes the file for the given object instance and module.
+        /// </summary>
+        /// <param name="moduleName">The folder name of the module to delete the file for.</param>
+        /// <param name="sf">The instance of the object whose file should be deleted.</param>
+        /// <param name="location">The location of the file to be deleted.</param>
+        /// <returns>Returns true if the file was deleted successfully.</returns>
+        public static bool DeleteFile(string moduleName, ISerialisableFile sf, Location location = Location.Modules)
+        {
+            return DeleteFile(moduleName, GetFileNameFor(sf), location);
         }
 
         private static void Add(ISerialisableFile loadable)
