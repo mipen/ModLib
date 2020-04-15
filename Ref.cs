@@ -30,7 +30,7 @@ namespace ModLib
 
         public Ref(Func<object> getter, Action<object> setter)
         {
-            this.getter = getter ?? throw new ArgumentNullException("getter");
+            this.getter = getter ?? throw new ArgumentNullException(nameof(getter));
             this.setter = setter;
         }
 
