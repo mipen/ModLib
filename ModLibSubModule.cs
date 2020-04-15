@@ -17,7 +17,9 @@ namespace ModLib
             try
             {
                 FileDatabase.Initialise(ModuleFolderName);
-                SettingsDatabase.RegisterSettings(FileDatabase.Get<Settings>(Settings.SettingsInstanceID));
+                Settings settings = FileDatabase.Get<Settings>(Settings.SettingsInstanceID);
+                if (settings == null) settings = new Settings();
+                SettingsDatabase.RegisterSettings(settings);
 
                 var harmony = new Harmony("mod.modlib.mipen");
                 harmony.PatchAll();

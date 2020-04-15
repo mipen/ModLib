@@ -15,7 +15,7 @@ namespace ModLib
         public static Dictionary<Type, Dictionary<string, ISerialisableFile>> Data { get; } = new Dictionary<Type, Dictionary<string, ISerialisableFile>>();
 
         /// <summary>
-        /// Returns the ISerialisabeFile of type T with the given ID.
+        /// Returns the ISerialisableFile of type T with the given ID from the database. If it cannot be found, returns null.
         /// </summary>
         /// <typeparam name="T">Type of object to retrieve.</typeparam>
         /// <param name="id">ID of object to retrieve.</param>
@@ -24,9 +24,9 @@ namespace ModLib
         {
             //First check if the dictionary contains the key
             if (!Data.ContainsKey(typeof(T)))
-                return default(T);
+                return default;
             if (!Data[typeof(T)].ContainsKey(id))
-                return default(T);
+                return default;
 
             return (T)Data[typeof(T)][id];
         }
@@ -265,9 +265,9 @@ namespace ModLib
                 string[] subfolders = Directory.GetDirectories(modConfigsPath);
                 if (subfolders.Count() > 0)
                 {
-                    foreach(var subFolder in subfolders)
+                    foreach (var subFolder in subfolders)
                     {
-                        foreach(var filePath in Directory.GetFiles(subFolder))
+                        foreach (var filePath in Directory.GetFiles(subFolder))
                         {
                             try
                             {
@@ -315,11 +315,14 @@ namespace ModLib
             public string AssemblyName { get; private set; } = "";
             public string TypeName { get; private set; } = "";
             public string FullName => $"{TypeName}, {AssemblyName}";
+            private Type _type = null;
             public Type Type
             {
                 get
                 {
-                    return AppDomain.CurrentDomain.GetAssemblies().Where(z => z.FullName.StartsWith(this.AssemblyName)).FirstOrDefault().GetType(TypeName);
+                    if (_type == null)
+                        _type = AppDomain.CurrentDomain.GetAssemblies().Where(z => z.FullName.StartsWith(AssemblyName)).FirstOrDefault().GetType(TypeName);
+                    return _type;
                 }
             }
 
