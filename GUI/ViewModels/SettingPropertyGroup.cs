@@ -83,19 +83,19 @@ namespace ModLib.GUI.ViewModels
                 {
                     GroupToggleSettingProperty.BoolValue = value;
                     OnPropertyChanged();
-                    OnPropertyChanged("IsExpanded");
+                    OnPropertyChanged(nameof(IsExpanded));
                     OnGroupClick();
                     OnGroupClick();
-                    OnPropertyChanged("GroupNameDisplay");
+                    OnPropertyChanged(nameof(GroupNameDisplay));
                     foreach (var propSetting in SettingProperties)
                     {
-                        propSetting.OnPropertyChanged("IsEnabled");
-                        propSetting.OnPropertyChanged("IsSettingVisible");
+                        propSetting.OnPropertyChanged(nameof(SettingProperty.IsEnabled));
+                        propSetting.OnPropertyChanged(nameof(SettingProperty.IsSettingVisible));
                     }
                     foreach (var subGroup in SettingPropertyGroups)
                     {
-                        subGroup.OnPropertyChanged("IsGroupVisible");
-                        subGroup.OnPropertyChanged("IsExpanded");
+                        subGroup.OnPropertyChanged(nameof(SettingPropertyGroup.IsGroupVisible));
+                        subGroup.OnPropertyChanged(nameof(SettingPropertyGroup.IsExpanded));
                     }
                 }
             }
@@ -127,14 +127,14 @@ namespace ModLib.GUI.ViewModels
                 {
                     _isExpanded = value;
                     OnPropertyChanged();
-                    OnPropertyChanged("IsGroupVisible");
+                    OnPropertyChanged(nameof(IsGroupVisible));
                     foreach (var subGroup in SettingPropertyGroups)
                     {
-                        subGroup.OnPropertyChanged("IsGroupVisible");
-                        subGroup.OnPropertyChanged("IsExpanded");
+                        subGroup.OnPropertyChanged(nameof(SettingPropertyGroup.IsGroupVisible));
+                        subGroup.OnPropertyChanged(nameof(SettingPropertyGroup.IsExpanded));
                     }
                     foreach (var settingProp in SettingProperties)
-                        settingProp.OnPropertyChanged("IsSettingVisible");
+                        settingProp.OnPropertyChanged(nameof(SettingProperty.IsSettingVisible));
                 }
             }
         }
@@ -151,7 +151,7 @@ namespace ModLib.GUI.ViewModels
             foreach (var setting in SettingProperties)
                 setting.RefreshValues();
 
-            OnPropertyChanged("GroupNameDisplay");
+            OnPropertyChanged(nameof(GroupNameDisplay));
         }
 
         public void Add(SettingProperty sp)
@@ -212,9 +212,9 @@ namespace ModLib.GUI.ViewModels
             if (SettingProperties.Count > 0)
             {
                 foreach (var prop in SettingProperties)
-                    prop.OnPropertyChanged("IsSettingVisible");
+                    prop.OnPropertyChanged(nameof(SettingProperty.IsSettingVisible));
             }
-            OnPropertyChanged("IsGroupVisible");
+            OnPropertyChanged(nameof(IsGroupVisible));
         }
 
         private void OnHover()

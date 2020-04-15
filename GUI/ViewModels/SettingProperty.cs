@@ -86,7 +86,7 @@ namespace ModLib.GUI.ViewModels
                 {
                     _floatValue = (float)Math.Round((double)value, 2, MidpointRounding.ToEven);
                     OnPropertyChanged();
-                    OnPropertyChanged("ValueString");
+                    OnPropertyChanged(nameof(ValueString));
                 }
             }
         }
@@ -103,7 +103,7 @@ namespace ModLib.GUI.ViewModels
                 {
                     _intValue = value;
                     OnPropertyChanged();
-                    OnPropertyChanged("ValueString");
+                    OnPropertyChanged(nameof(ValueString));
                 }
             }
         }

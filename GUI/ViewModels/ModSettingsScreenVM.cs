@@ -79,8 +79,8 @@ namespace ModLib.GUI.ViewModels
                 {
                     _selectedMod = value;
                     OnPropertyChanged();
-                    OnPropertyChanged("SelectedModName");
-                    OnPropertyChanged("SomethingSelected");
+                    OnPropertyChanged(nameof(SelectedModName));
+                    OnPropertyChanged(nameof(SomethingSelected));
                 }
             }
         }
@@ -98,7 +98,7 @@ namespace ModLib.GUI.ViewModels
                 {
                     _hintText = value;
                     OnPropertyChanged();
-                    OnPropertyChanged("IsHintVisible");
+                    OnPropertyChanged(nameof(IsHintVisible));
                 }
             }
         }
@@ -143,7 +143,7 @@ namespace ModLib.GUI.ViewModels
                 msvm.RefreshValues();
                 msvm.SetParent(this);
             }
-            OnPropertyChanged("SelectedMod");
+            OnPropertyChanged(nameof(SelectedMod));
         }
 
         public bool ExecuteCancel()
