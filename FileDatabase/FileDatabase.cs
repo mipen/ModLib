@@ -34,19 +34,19 @@ namespace ModLib
         /// <summary>
         /// Loads all files for the given module.
         /// </summary>
-        /// <param name="moduleName">Name of the module to load the files from. This is the name of the actual folder in the Bannerlord Modules folder.</param>
+        /// <param name="moduleFolderName">Name of the module to load the files from. This is the name of the actual folder in the Bannerlord Modules folder.</param>
         /// <returns>Returns true if initialisation was successful.</returns>
-        public static bool Initialise(string moduleName)
+        public static bool Initialise(string moduleFolderName)
         {
             bool successful = false;
             try
             {
-                LoadAllFiles(moduleName);
+                LoadAllFiles(moduleFolderName);
                 successful = true;
             }
             catch (Exception ex)
             {
-                ModDebug.ShowError($"An error occurred whilst trying to load files for module: {moduleName}", "Error occurred during loading files", ex);
+                ModDebug.ShowError($"An error occurred whilst trying to load files for module: {moduleFolderName}", "Error occurred during loading files", ex);
             }
             return successful;
         }
