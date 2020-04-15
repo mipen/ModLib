@@ -58,9 +58,9 @@ namespace ModLib.GUI.ViewModels
 
             foreach (var group in SettingPropertyGroups)
                 group.RefreshValues();
-            OnPropertyChanged("IsSelected");
-            OnPropertyChanged("ModName");
-            OnPropertyChanged("SettingPropertyGroups");
+            OnPropertyChanged(nameof(IsSelected));
+            OnPropertyChanged(nameof(ModName));
+            OnPropertyChanged(nameof(SettingPropertyGroups));
         }
 
         public void AddSelectCommand(Action<ModSettingsVM> command)

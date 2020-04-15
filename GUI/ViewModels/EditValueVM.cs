@@ -71,7 +71,7 @@ namespace ModLib.GUI.ViewModels
             TitleText = $"Edit \"{SettingProperty.Name}\"";
             DescriptionText = $"Edit the value for \"{SettingProperty.Name}\".\nThe minimum value is {SettingProperty.SettingAttribute.EditableMinValue} and the maximum value is {SettingProperty.SettingAttribute.EditableMaxValue}.";
             TextInput = SettingProperty.ValueString;
-            OnPropertyChanged("SettingType");
+            OnPropertyChanged(nameof(SettingType));
         }
 
         private void ExecuteDone()
