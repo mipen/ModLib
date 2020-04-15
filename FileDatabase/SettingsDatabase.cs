@@ -46,16 +46,6 @@ namespace ModLib
             }
         }
 
-        internal static bool OverrideSettingsWithID(SettingsBase settings, string ID)
-        {
-            if (AllSettingsDict.ContainsKey(ID))
-            {
-                AllSettingsDict[ID] = settings;
-                return true;
-            }
-            return false;
-        }
-
         /// <summary>
         /// Retrieves the Settings instance from the SettingsDatabase with the given ID.
         /// </summary>
@@ -93,6 +83,16 @@ namespace ModLib
             newObj.ID = id;
             AllSettingsDict[id] = newObj;
             return newObj;
+        }
+
+        internal static bool OverrideSettingsWithID(SettingsBase settings, string ID)
+        {
+            if (AllSettingsDict.ContainsKey(ID))
+            {
+                AllSettingsDict[ID] = settings;
+                return true;
+            }
+            return false;
         }
 
         internal static void BuildModSettingsVMs()

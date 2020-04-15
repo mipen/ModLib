@@ -57,7 +57,7 @@ namespace ModLib
         /// <param name="moduleFolderName">The folder name of the module to save to.</param>
         /// <param name="sf">Instance of the object to save to file.</param>
         /// <param name="location">Indicates whether to save the file to the ModuleData/Loadables folder or to the mod's Config folder in Bannerlord's 'My Documents' directory.</param>
-        public static bool SaveToFile(string moduleFolderName, ISerialisableFile sf, Location location = Location.Loadables)
+        public static bool SaveToFile(string moduleFolderName, ISerialisableFile sf, Location location = Location.Modules)
         {
             try
             {
@@ -69,12 +69,12 @@ namespace ModLib
                 //Gets the intended path for the file.
                 string path = GetPathForModule(moduleFolderName, location);
 
-                if (location == Location.Loadables && !Directory.Exists(path))
+                if (location == Location.Modules && !Directory.Exists(path))
                     throw new Exception($"FileDatabase cannot find the module named {moduleFolderName}");
                 else if (location == Location.Configs && !Directory.Exists(path))
                     Directory.CreateDirectory(path);
 
-                if (location == Location.Loadables)
+                if (location == Location.Modules)
                     path = Path.Combine(path, "ModuleData", LoadablesFolderName);
 
                 if (sf is ISubFolder)
@@ -116,7 +116,7 @@ namespace ModLib
         /// <param name="fileName">The file name of the file to be deleted.</param>
         /// <param name="location">The location of the file to be deleted.</param>
         /// <returns>Returns true if the file was deleted successfully.</returns>
-        public static bool DeleteFile(string moduleFolderName, string fileName, Location location = Location.Loadables)
+        public static bool DeleteFile(string moduleFolderName, string fileName, Location location = Location.Modules)
         {
             bool successful = true;
             string path = GetPathForModule(moduleFolderName, location);
@@ -126,7 +126,7 @@ namespace ModLib
                 successful = false;
             }
 
-            if (location == Location.Loadables)
+            if (location == Location.Modules)
                 path = Path.Combine(path, "ModuleData", LoadablesFolderName);
 
             string filePath = Path.Combine(path, fileName);
@@ -143,7 +143,7 @@ namespace ModLib
         /// <param name="sf">The instance of the object whose file should be deleted.</param>
         /// <param name="location">The location of the file to be deleted.</param>
         /// <returns>Returns true if the file was deleted successfully.</returns>
-        public static bool DeleteFile(string moduleFolderName, ISerialisableFile sf, Location location = Location.Loadables)
+        public static bool DeleteFile(string moduleFolderName, ISerialisableFile sf, Location location = Location.Modules)
         {
             return DeleteFile(moduleFolderName, GetFileNameFor(sf), location);
         }
@@ -215,7 +215,7 @@ namespace ModLib
         {
             #region Loadables Folder
             //Check if the given module name is correct
-            string modulePath = GetPathForModule(moduleName, Location.Loadables);
+            string modulePath = GetPathForModule(moduleName, Location.Modules);
             if (!Directory.Exists(modulePath))
                 throw new Exception($"Cannot find module named {moduleName}");
             //Check the module's ModuleData folder for the Loadables folder.
@@ -311,15 +311,15 @@ namespace ModLib
         /// <summary>
         /// Returns the root folder for the given module name and intended location.
         /// </summary>
-        /// <param name="moduleName">Name of the Module's Folder.</param>
+        /// <param name="moduleFolderName">Name of the Module's Folder.</param>
         /// <param name="location">Which location to get the path to - configs or the mod's module folder.</param>
         /// <returns></returns>
-        public static string GetPathForModule(string moduleName, Location location)
+        public static string GetPathForModule(string moduleFolderName, Location location)
         {
-            if (location == Location.Loadables)
-                return Path.Combine(TaleWorlds.Library.BasePath.Name, "Modules", moduleName);
+            if (location == Location.Modules)
+                return Path.Combine(TaleWorlds.Library.BasePath.Name, "Modules", moduleFolderName);
             else
-                return Path.Combine(TaleWorlds.Engine.Utilities.GetConfigsPath(), moduleName);
+                return Path.Combine(TaleWorlds.Engine.Utilities.GetConfigsPath(), moduleFolderName);
         }
 
         private class TypeData
@@ -366,7 +366,7 @@ namespace ModLib
 
         public enum Location
         {
-            Loadables,
+            Modules,
             Configs
         }
     }
