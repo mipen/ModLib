@@ -8,6 +8,7 @@ namespace MyMod
         public const string InstanceID = "MyModSettings";
         public override string ModName => "MyMod";
         public override string ModuleFolderName => MyModFolder;
+        [XmlElement]
         public override string ID { get; set; } = InstanceID;
 
         public static Settings Instance
