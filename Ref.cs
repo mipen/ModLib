@@ -5,10 +5,10 @@ namespace ModLib
 {
     public class Ref
     {
-        private Func<object> getter;
-        private Action<object> setter;
-        private PropertyInfo propInfo = null;
-        private object instance = null;
+        private readonly Func<object> getter;
+        private readonly Action<object> setter;
+        private readonly PropertyInfo propInfo = null;
+        private readonly object instance = null;
 
         public object Value
         {

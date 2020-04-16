@@ -1,13 +1,13 @@
 ﻿using ModLib.Attributes;
 using System.Xml.Serialization;
 
-namespace ModLib
+namespace ModLib.Patches
 {
     public class Settings : SettingsBase
     {
         public override string ModName => "ModLib";
         public override string ModuleFolderName => ModLibSubModule.ModuleFolderName;
-        public const string SettingsInstanceID = "ModLibSettings";
+        public const string SettingsInstanceID = "ModLibPatchesSettings";
         public static Settings Instance
         {
             get

@@ -11,7 +11,7 @@ namespace ModLib
 {
     public static class FileDatabase
     {
-        private static readonly string LoadablesFolderName = "Loadables";
+        private const string LoadablesFolderName = "Loadables";
         public static Dictionary<Type, Dictionary<string, ISerialisableFile>> Data { get; } = new Dictionary<Type, Dictionary<string, ISerialisableFile>>();
 
         /// <summary>
@@ -61,6 +61,7 @@ namespace ModLib
         {
             try
             {
+                if (sf == null) throw new ArgumentNullException(nameof(sf));
                 if (string.IsNullOrWhiteSpace(sf.ID))
                     throw new Exception($"FileDatabase tried to save an object of type {sf.GetType().FullName} but the ID value was null.");
                 if (string.IsNullOrWhiteSpace(moduleFolderName))
@@ -104,7 +105,7 @@ namespace ModLib
             }
             catch (Exception ex)
             {
-                ModDebug.ShowError($"Cannot create the file for type {sf.GetType().FullName} with ID {sf.ID} for module {moduleFolderName}:", "Error saving to file", ex);
+                ModDebug.ShowError($"Cannot create the file for type {sf?.GetType().FullName} with ID {sf?.ID} for module {moduleFolderName}:", "Error saving to file", ex);
                 return false;
             }
         }
@@ -151,7 +152,7 @@ namespace ModLib
         private static void Add(ISerialisableFile loadable)
         {
             if (loadable == null)
-                throw new ArgumentNullException("Tried to add something to the FileDatabase Data dictionary that was null");
+                throw new ArgumentNullException(nameof(loadable), "Tried to add something to the FileDatabase Data dictionary that was null");
             if (string.IsNullOrWhiteSpace(loadable.ID))
                 throw new ArgumentNullException($"Loadable of type {loadable.GetType().ToString()} has missing ID field");
 
@@ -233,7 +234,7 @@ namespace ModLib
 
                     //Loop through any subfolders and load the files in them
                     string[] subDirs = Directory.GetDirectories(moduleLoadablesPath);
-                    if (subDirs.Count() > 0)
+                    if (subDirs.Any())
                     {
                         foreach (var subDir in subDirs)
                         {
@@ -275,7 +276,7 @@ namespace ModLib
                     }
                 }
                 string[] subfolders = Directory.GetDirectories(modConfigsPath);
-                if (subfolders.Count() > 0)
+                if (subfolders.Any())
                 {
                     foreach (var subFolder in subfolders)
                     {
@@ -305,6 +306,7 @@ namespace ModLib
         /// <returns>Returns the file name of the given ISerialisableFile, including the file extension.</returns>
         public static string GetFileNameFor(ISerialisableFile sf)
         {
+            if (sf == null) throw new ArgumentNullException(nameof(sf));
             return $"{sf.GetType().Name}.{sf.ID}.xml";
         }
 

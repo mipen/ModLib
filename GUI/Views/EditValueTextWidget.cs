@@ -27,6 +27,7 @@ namespace ModLib.GUI.Views
         {
             if (Input.IsKeyDown(InputKey.LeftControl) && Input.IsKeyPressed(InputKey.V))
                 return;
+            if (lastKeysPressed == null) return;
 
             if (lastKeysPressed.Count > 0)
             {
@@ -57,17 +58,19 @@ namespace ModLib.GUI.Views
                         }
                         base.HandleInput(lastKeysPressed);
                         float value;
-                        float.TryParse(RealText, out value);
-                        float newVal = value;
-                        if (value > MaxValue)
-                            newVal = MaxValue;
-                        else if (value < MinValue)
-                            newVal = MinValue;
-                        if (newVal != value)
+                        if (float.TryParse(RealText, out value))
                         {
-                            string format = SettingType == SettingType.Int ? "0" : "0.00";
-                            RealText = newVal.ToString(format);
-                            editableText.SetCursorPosition(0, true);
+                            float newVal = value;
+                            if (value > MaxValue)
+                                newVal = MaxValue;
+                            else if (value < MinValue)
+                                newVal = MinValue;
+                            if (newVal != value)
+                            {
+                                string format = SettingType == SettingType.Int ? "0" : "0.00";
+                                RealText = newVal.ToString(format);
+                                editableText.SetCursorPosition(0, true);
+                            }
                         }
                     }
                 }

@@ -20,12 +20,12 @@ namespace ModLib
             UndoFunction = undoFunction;
         }
 
-        public void Do()
+        public void DoAction()
         {
             DoFunction?.Invoke((T)Value);
         }
 
-        public void Undo()
+        public void UndoAction()
         {
             UndoFunction?.Invoke((T)Value);
         }

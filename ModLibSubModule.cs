@@ -1,5 +1,4 @@
-﻿using HarmonyLib;
-using ModLib.Debugging;
+﻿using ModLib.Debugging;
 using ModLib.GUI.GauntletUI;
 using System;
 using TaleWorlds.Engine.Screens;
@@ -17,19 +16,15 @@ namespace ModLib
             try
             {
                 FileDatabase.Initialise(ModuleFolderName);
-                Settings settings = FileDatabase.Get<Settings>(Settings.SettingsInstanceID);
-                if (settings == null) settings = new Settings();
-                SettingsDatabase.RegisterSettings(settings);
-
-                var harmony = new Harmony("mod.modlib.mipen");
-                harmony.PatchAll();
 
                 Module.CurrentModule.AddInitialStateOption(new InitialStateOption("ModOptionsMenu", new TextObject("Mod Options"), 9990, () =>
                 {
                     ScreenManager.PushScreen(new ModOptionsGauntletScreen());
                 }, false));
             }
+#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
+#pragma warning restore CA1031 // Do not catch general exception types
             {
                 ModDebug.ShowError($"An error occurred whilst initialising ModLib", "Error during initialisation", ex);
             }

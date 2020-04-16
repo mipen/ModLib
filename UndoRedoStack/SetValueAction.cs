@@ -1,4 +1,5 @@
 ﻿using ModLib.Interfaces;
+using System;
 
 namespace ModLib
 {
@@ -12,18 +13,19 @@ namespace ModLib
 
         public SetValueAction(Ref context, T value)
         {
+            if (context == null) throw new ArgumentNullException(nameof(context));
             Context = context;
             Value = value;
 
             original = (T)Context.Value;
         }
 
-        public void Do()
+        public void DoAction()
         {
             Context.Value = Value;
         }
 
-        public void Undo()
+        public void UndoAction()
         {
             Context.Value = original;
         }

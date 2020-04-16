@@ -1,5 +1,6 @@
 ﻿using ModLib.GUI.ViewModels;
 using ModLib.Interfaces;
+using System;
 
 namespace ModLib
 {
@@ -14,17 +15,19 @@ namespace ModLib
 
         public SetFloatSettingProperty(SettingProperty settingProperty, float value)
         {
+            if (settingProperty == null) throw new ArgumentNullException(nameof(settingProperty));
+
             Value = value;
             SettingProperty = settingProperty;
             originalValue = SettingProperty.IntValue;
         }
 
-        public void Do()
+        public void DoAction()
         {
             SettingProperty.FloatValue = (float)Value;
         }
 
-        public void Undo()
+        public void UndoAction()
         {
             SettingProperty.FloatValue = originalValue;
         }

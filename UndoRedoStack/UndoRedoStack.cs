@@ -1,4 +1,5 @@
 ﻿using ModLib.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace ModLib
@@ -26,9 +27,14 @@ namespace ModLib
         /// <param name="action"></param>
         public void Do(IAction action)
         {
-            action.Do();
-            UndoStack.Push(action);
-            RedoStack.Clear();
+            if (action != null)
+            {
+                action.DoAction();
+                UndoStack.Push(action);
+                RedoStack.Clear();
+            }
+            else
+                throw new ArgumentNullException(nameof(action));
         }
 
         /// <summary>
@@ -39,7 +45,7 @@ namespace ModLib
             if (CanUndo)
             {
                 IAction a = UndoStack.Pop();
-                a.Undo();
+                a.UndoAction();
                 RedoStack.Push(a);
             }
         }
@@ -52,7 +58,7 @@ namespace ModLib
             if (CanRedo)
             {
                 IAction a = RedoStack.Pop();
-                a.Do();
+                a.DoAction();
                 UndoStack.Push(a);
             }
         }
@@ -67,7 +73,7 @@ namespace ModLib
                 while (UndoStack.Count > 0)
                 {
                     IAction a = UndoStack.Pop();
-                    a.Undo();
+                    a.UndoAction();
                 }
             }
             if (HasInitials)
@@ -86,6 +92,7 @@ namespace ModLib
         /// <param name="urs">Foreign UndoRedoStack to add to top of UndoStack</param>
         public void MergeURStack(UndoRedoStack urs)
         {
+            if (urs == null) throw new ArgumentNullException(nameof(urs));
             UndoStack.AppendToTop(urs.UndoStack);
         }
 

@@ -24,6 +24,15 @@
 				<Tag key="IsNoRenderModeElement" value="false" />
 			</Tags>
 		</SubModule>
+    <SubModule>
+      <Name value="ModLib.Patches"/>
+      <DLLName value="ModLib.Patches.dll"/>
+      <SubModuleClassType value="ModLib.Patches.ModLibPatchesSubModule"/>
+      <Tags>
+        <Tag key="DedicatedServerType" value="none" />
+        <Tag key="IsNoRenderModeElement" value="false" />
+      </Tags>
+    </SubModule>
 	</SubModules>
 	
 	

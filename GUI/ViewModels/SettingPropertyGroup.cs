@@ -30,9 +30,10 @@ namespace ModLib.GUI.ViewModels
         {
             get
             {
-                if (ScreenVM == null || ScreenVM.SearchText == "")
+                if (ScreenVM == null || string.IsNullOrWhiteSpace(ScreenVM.SearchText))
                     return true;
-                return GroupName.ToLower().Contains(ScreenVM.SearchText.ToLower()) || AnyChildSettingSatisfiesSearch;
+                else
+                    return GroupName.ToLower().Contains(ScreenVM.SearchText.ToLower()) || AnyChildSettingSatisfiesSearch;
             }
         }
         public bool AnyChildSettingSatisfiesSearch
@@ -156,6 +157,7 @@ namespace ModLib.GUI.ViewModels
 
         public void Add(SettingProperty sp)
         {
+            if (sp == null) throw new ArgumentNullException(nameof(sp));
             SettingProperties.Add(sp);
             sp.Group = this;
 

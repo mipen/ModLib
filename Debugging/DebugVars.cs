@@ -2,6 +2,6 @@
 {
     public static class DebugVars
     {
-        public static bool ShowDebug = false;
+        public static bool ShowDebug { get; } = false;
     }
 }

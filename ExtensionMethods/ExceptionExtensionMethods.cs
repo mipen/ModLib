@@ -10,7 +10,10 @@ namespace ModLib
     {
         public static string ToStringFull(this Exception ex)
         {
-            return GetString(ex);
+            if (ex != null)
+                return GetString(ex);
+            else
+                return "";
         }
 
         private static string GetString(Exception ex)

@@ -27,7 +27,7 @@ namespace ModLib.GUI.ViewModels
         {
             get
             {
-                if (ScreenVM == null || ScreenVM.SearchText == "")
+                if (ScreenVM == null || string.IsNullOrWhiteSpace(ScreenVM.SearchText))
                     return true;
 
                 return Name.ToLower().Contains(ScreenVM.SearchText.ToLower());

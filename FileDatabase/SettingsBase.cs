@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using TaleWorlds.Library;
 
 namespace ModLib
 {
@@ -43,7 +42,7 @@ namespace ModLib
                             let propAttr = p.GetCustomAttribute<SettingPropertyAttribute>(true)
                             let groupAttr = p.GetCustomAttribute<SettingPropertyGroupAttribute>(true)
                             where propAttr != null
-                            let groupAttrToAdd = groupAttr == null ? SettingPropertyGroupAttribute.Default : groupAttr
+                            let groupAttrToAdd = groupAttr ?? SettingPropertyGroupAttribute.Default
                             select new SettingProperty(propAttr, groupAttrToAdd, p, this)).ToList();
 
             //Loop through each property
@@ -85,8 +84,7 @@ namespace ModLib
             if (sp.GroupAttribute.GroupName.Contains(SubGroupDelimiter))
             {
                 //Intended group is a sub group. Must find it. First get the top group.
-                string truncatedGroupName;
-                string topGroupName = GetTopGroupName(sp.GroupAttribute.GroupName, out truncatedGroupName);
+                string topGroupName = GetTopGroupName(sp.GroupAttribute.GroupName, out string truncatedGroupName);
                 SettingPropertyGroup topGroup = groupsList.GetGroup(topGroupName);
                 if (topGroup == null)
                 {
@@ -109,7 +107,7 @@ namespace ModLib
             return group;
         }
 
-        private SettingPropertyGroup GetGroupFor(string groupName, ICollection<SettingPropertyGroup> groupsList)
+        private static SettingPropertyGroup GetGroupFor(string groupName, ICollection<SettingPropertyGroup> groupsList)
         {
             return groupsList.GetGroup(groupName);
         }
@@ -119,8 +117,7 @@ namespace ModLib
             if (groupName.Contains(SubGroupDelimiter))
             {
                 //Need to go deeper
-                string truncatedGroupName;
-                string topGroupName = GetTopGroupName(groupName, out truncatedGroupName);
+                string topGroupName = GetTopGroupName(groupName, out string truncatedGroupName);
                 SettingPropertyGroup topGroup = GetGroupFor(topGroupName, groupsList);
                 if (topGroup == null)
                 {
@@ -142,7 +139,7 @@ namespace ModLib
             }
         }
 
-        private string GetTopGroupName(string groupName, out string truncatedGroupName)
+        private static string GetTopGroupName(string groupName, out string truncatedGroupName)
         {
             int index = groupName.IndexOf(SubGroupDelimiter);
             string topGroupName = groupName.Substring(0, index);
@@ -151,7 +148,7 @@ namespace ModLib
             return topGroupName;
         }
 
-        private void CheckIsValid(SettingProperty prop)
+        private static void CheckIsValid(SettingProperty prop)
         {
             if (!prop.Property.CanRead)
                 throw new Exception($"Property {prop.Property.Name} in {prop.SettingsInstance.GetType().FullName} must have a getter.");

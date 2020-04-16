@@ -33,6 +33,7 @@ namespace ModLib
         /// <returns>Returns true if successful. Returns false if the object's ID key is already present in the SettingsDatabase.</returns>
         public static bool RegisterSettings(SettingsBase settings)
         {
+            if (settings == null) throw new ArgumentNullException(nameof(settings));
             if (!AllSettingsDict.ContainsKey(settings.ID))
             {
                 AllSettingsDict.Add(settings.ID, settings);
@@ -68,6 +69,7 @@ namespace ModLib
         /// <returns>Return true if the settings object was saved successfully. Returns false if it failed to save.</returns>
         public static bool SaveSettings(SettingsBase settingsInstance)
         {
+            if (settingsInstance == null) throw new ArgumentNullException(nameof(settingsInstance));
             return FileDatabase.SaveToFile(settingsInstance.ModuleFolderName, settingsInstance, FileDatabase.Location.Configs);
         }
 
@@ -78,6 +80,7 @@ namespace ModLib
         /// <returns>Returns the instance of the new object with default values.</returns>
         public static SettingsBase ResetSettingsInstance(SettingsBase settingsInstance)
         {
+            if (settingsInstance == null) throw new ArgumentNullException(nameof(settingsInstance));
             string id = settingsInstance.ID;
             SettingsBase newObj = (SettingsBase)Activator.CreateInstance(settingsInstance.GetType());
             newObj.ID = id;

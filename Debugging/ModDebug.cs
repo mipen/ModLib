@@ -6,7 +6,7 @@ namespace ModLib.Debugging
 {
     public static class ModDebug
     {
-        public static void ShowError(string message, string title="", Exception exception = null)
+        public static void ShowError(string message, string title = "", Exception exception = null)
         {
             if (string.IsNullOrWhiteSpace(title))
                 title = "";

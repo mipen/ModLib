@@ -18,7 +18,7 @@ namespace ModLib.GUI.Views
             set
             {
                 _finalisedFloatValue = value;
-                OnPropertyChanged(value, "FinalisedFloatValue");
+                OnPropertyChanged(value, nameof(FinalisedFloatValue));
             }
         }
         public int FinalisedIntValue
@@ -30,7 +30,7 @@ namespace ModLib.GUI.Views
             set
             {
                 _finalisedIntValue = value;
-                OnPropertyChanged(value, "FinalisedIntValue");
+                OnPropertyChanged(value, nameof(FinalisedIntValue));
             }
         }
 
