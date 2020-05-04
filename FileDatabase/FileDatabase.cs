@@ -1,5 +1,5 @@
 ﻿using ModLib.Debugging;
-using ModLib.Interfaces;
+using ModLib.Definitions.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;

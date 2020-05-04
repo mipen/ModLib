@@ -22,9 +22,7 @@ namespace ModLib
                     ScreenManager.PushScreen(new ModOptionsGauntletScreen());
                 }, false));
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 ModDebug.ShowError($"An error occurred whilst initialising ModLib", "Error during initialisation", ex);
             }

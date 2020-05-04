@@ -1,6 +1,7 @@
 ﻿using ModLib.Debugging;
 using ModLib.GUI.ViewModels;
-using ModLib.Interfaces;
+using ModLib.Definitions.Interfaces;
+using ModLib.Definitions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +53,7 @@ namespace ModLib
         /// </summary>
         /// <param name="uniqueID">The ID for the settings instance.</param>
         /// <returns>Returns the settings instance with the given ID. Returns null if nothing can be found.</returns>
-        public static ISerialisableFile GetSettings(string uniqueID)
+        public static SettingsBase GetSettings(string uniqueID)
         {
             if (AllSettingsDict.ContainsKey(uniqueID))
             {
