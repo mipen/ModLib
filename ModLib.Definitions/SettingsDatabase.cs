@@ -1,11 +1,12 @@
 ﻿using System.Reflection;
+using System.Windows.Forms;
 using static ModLib.Definitions.AssemblyChecker;
 
 namespace ModLib.Definitions
 {
     public static class SettingsDatabase
     {
-        private const string SettingsDatabaseTypeName = "SettingsDatabase";
+        private const string SettingsDatabaseTypeName = "ModLib.SettingsDatabase";
         private const string GetSettingsMethodName = "GetSettings";
         private static MethodInfo _getSettingsMethodInfo = null;
 
@@ -16,7 +17,13 @@ namespace ModLib.Definitions
                 if (AssemblyLoaded)
                 {
                     if (_getSettingsMethodInfo == null)
-                        _getSettingsMethodInfo = AssemblyChecker.Assembly.GetType(SettingsDatabaseTypeName).GetMethod(GetSettingsMethodName);
+                    {
+                        var type = AssemblyChecker.Assembly.GetType(SettingsDatabaseTypeName);
+                        if (type == null)
+                            MessageBox.Show("Cannot find type for SettingsDatabase");
+                        else
+                            _getSettingsMethodInfo = type.GetMethod(GetSettingsMethodName);
+                    }
                     return _getSettingsMethodInfo;
                 }
                 return null;
@@ -27,7 +34,7 @@ namespace ModLib.Definitions
         {
             if (AssemblyLoaded)
             {
-                return (SettingsBase)GetSettingsMethod.Invoke(null, new object[] { uniqueID });
+                return (SettingsBase)GetSettingsMethod?.Invoke(null, new object[] { uniqueID });
             }
             else
                 return null;
