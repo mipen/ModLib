@@ -6,7 +6,8 @@ namespace ModLib.Definitions
 {
     public static class AssemblyChecker
     {
-        private const string AssemblyName = "ModLib";
+        public const string AssemblyName = "ModLib";
+        public const string AssemblyNameFull = "ModLib.dll";
         private static bool _assemblyLoaded = false;
         private static Assembly _assembly = null;
 

@@ -1,6 +1,5 @@
 ﻿using ModLib.Debugging;
 using ModLib.GUI.ViewModels;
-using ModLib.Definitions.Interfaces;
 using ModLib.Definitions;
 using System;
 using System.Collections.Generic;
