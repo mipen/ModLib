@@ -1,6 +1,7 @@
 ﻿using ModLib.Debugging;
 using ModLib.GUI.GauntletUI;
 using System;
+using System.Windows.Forms;
 using TaleWorlds.Engine.Screens;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
@@ -30,6 +31,7 @@ namespace ModLib
 
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
+            SettingsDatabase.LoadAllSettings();
             SettingsDatabase.BuildModSettingsVMs();
         }
     }

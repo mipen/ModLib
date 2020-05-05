@@ -13,7 +13,7 @@ namespace ModLib.Patches
         {
             get
             {
-                return (Settings)SettingsDatabase.GetSettings(SettingsInstanceID);
+                return (Settings)SettingsDatabase.GetSettings<Settings>();
             }
         }
 
