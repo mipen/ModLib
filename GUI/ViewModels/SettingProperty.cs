@@ -1,6 +1,6 @@
-﻿using ModLib.Attributes;
+﻿using ModLib.Definitions.Attributes;
+using ModLib.Definitions.Interfaces;
 using ModLib.GUI.GauntletUI;
-using ModLib.Interfaces;
 using System;
 using System.Reflection;
 using TaleWorlds.Engine.Screens;

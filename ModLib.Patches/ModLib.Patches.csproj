@@ -74,6 +74,10 @@
       <Project>{d0d189a7-42c9-4cab-b182-488c2293a11b}</Project>
       <Name>ModLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ModLib.Definitions\ModLib.Definitions.csproj">
+      <Project>{bd318a9c-f60a-4b37-baab-0873838db5b2}</Project>
+      <Name>ModLib.Definitions</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="AfterBuild">
