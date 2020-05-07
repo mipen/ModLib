@@ -1,4 +1,4 @@
-﻿namespace ModLib.Definitions.Interfaces
+﻿namespace ModLib.Interfaces
 {
     public interface ISerialisableFile
     {

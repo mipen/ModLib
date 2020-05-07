@@ -1,4 +1,4 @@
-﻿using ModLib.Definitions.Attributes;
+﻿using ModLib.Attributes;
 using System;
 using TaleWorlds.Library;
 using System.Linq;
@@ -9,6 +9,7 @@ namespace ModLib.GUI.ViewModels
     {
         private string groupNameOverride = "";
         private bool _isExpanded = true;
+        public const string DefaultGroupName = "Misc";
         public SettingProperty GroupToggleSettingProperty { get; private set; } = null;
         public SettingPropertyGroupAttribute Attribute { get; private set; }
         public UndoRedoStack URS { get; private set; }

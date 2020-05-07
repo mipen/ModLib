@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ModLib.Definitions.Attributes
+namespace ModLib.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class SettingPropertyAttribute : Attribute

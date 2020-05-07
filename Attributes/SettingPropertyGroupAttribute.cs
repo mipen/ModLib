@@ -1,12 +1,11 @@
-﻿using System;
+﻿using ModLib.GUI.ViewModels;
+using System;
 
-namespace ModLib.Definitions.Attributes
+namespace ModLib.Attributes
 {
     [AttributeUsage(AttributeTargets.Property)]
     public class SettingPropertyGroupAttribute : Attribute
     {
-        public const string DefaultGroupName = "Misc";
-
         /// <summary>
         /// The name of the settings group. Includes SubGroup notation if present.
         /// </summary>
@@ -30,6 +29,6 @@ namespace ModLib.Definitions.Attributes
         /// <summary>
         /// The default group used for settings that don't have a group explicitly set.
         /// </summary>
-        public static SettingPropertyGroupAttribute Default => new SettingPropertyGroupAttribute(DefaultGroupName, false);
+        public static SettingPropertyGroupAttribute Default => new SettingPropertyGroupAttribute(SettingPropertyGroup.DefaultGroupName, false);
     }
 }
