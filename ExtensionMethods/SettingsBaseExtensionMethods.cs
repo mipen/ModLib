@@ -1,6 +1,6 @@
-﻿using ModLib.Attributes;
+﻿using ModLib.Definitions;
+using ModLib.Definitions.Attributes;
 using ModLib.GUI.ViewModels;
-using ModLib.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,42 +8,20 @@ using System.Reflection;
 
 namespace ModLib
 {
-    public abstract class SettingsBase : ISerialisableFile, ISubFolder
+    public static class SettingsBaseExtensionMethods
     {
         private const char SubGroupDelimiter = '/';
 
-        /// <summary>
-        /// Unique identifier used to store the settings instance in the settings database and to save to file. Make sure this is unique to your mod.
-        /// </summary>
-        public abstract string ID { get; set; }
-        /// <summary>
-        /// The folder name of your mod's 'Modules' folder. Should be identical.
-        /// </summary>
-        public abstract string ModuleFolderName { get; }
-        /// <summary>
-        /// The name of your mod. This is used in the mods list in the settings menu.
-        /// </summary>
-        public abstract string ModName { get; }
-        /// <summary>
-        /// If you want this settings file stored inside a subfolder, set this to the name of the subfolder.
-        /// </summary>
-        public virtual string SubFolder => "";
-
-        public SettingsBase()
-        {
-
-        }
-
-        internal List<SettingPropertyGroup> GetSettingPropertyGroups()
+        internal static List<SettingPropertyGroup> GetSettingPropertyGroups(this SettingsBase sb)
         {
             var groups = new List<SettingPropertyGroup>();
             // Find all the properties in the settings instance which have the SettingProperty attribute.
-            var propList = (from p in GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+            var propList = (from p in sb.GetType().GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                             let propAttr = p.GetCustomAttribute<SettingPropertyAttribute>(true)
                             let groupAttr = p.GetCustomAttribute<SettingPropertyGroupAttribute>(true)
                             where propAttr != null
                             let groupAttrToAdd = groupAttr ?? SettingPropertyGroupAttribute.Default
-                            select new SettingProperty(propAttr, groupAttrToAdd, p, this)).ToList();
+                            select new SettingProperty(propAttr, groupAttrToAdd, p, sb)).ToList();
 
             //Loop through each property
             foreach (var settingProp in propList)
@@ -56,7 +34,7 @@ namespace ModLib
             }
 
             //If there is more than one group in the list, remove the misc group so that it can be added to the bottom of the list after sorting.
-            SettingPropertyGroup miscGroup = GetGroupFor(SettingPropertyGroup.DefaultGroupName, groups);
+            SettingPropertyGroup miscGroup = GetGroupFor(SettingPropertyGroupAttribute.DefaultGroupName, groups);
             if (miscGroup != null && groups.Count > 1)
                 groups.Remove(miscGroup);
             else
@@ -73,7 +51,7 @@ namespace ModLib
             return groups;
         }
 
-        private SettingPropertyGroup GetGroupFor(SettingProperty sp, ICollection<SettingPropertyGroup> groupsList)
+        private static SettingPropertyGroup GetGroupFor(SettingProperty sp, ICollection<SettingPropertyGroup> groupsList)
         {
             //If the setting somehow doesn't have a group attribute, throw an error.
             if (sp.GroupAttribute == null)
@@ -112,7 +90,7 @@ namespace ModLib
             return groupsList.GetGroup(groupName);
         }
 
-        private SettingPropertyGroup GetGroupForRecursive(string groupName, ICollection<SettingPropertyGroup> groupsList, SettingProperty sp)
+        private static SettingPropertyGroup GetGroupForRecursive(string groupName, ICollection<SettingPropertyGroup> groupsList, SettingProperty sp)
         {
             if (groupName.Contains(SubGroupDelimiter))
             {
@@ -163,5 +141,6 @@ namespace ModLib
                     throw new Exception($"Property {prop.Property.Name} in {prop.SettingsInstance.GetType().FullName} is marked as the main toggle for the group but is a numeric type. The main toggle must be a boolean type.");
             }
         }
+
     }
 }

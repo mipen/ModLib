@@ -12,9 +12,9 @@ namespace ModLib.Patches
             base.OnSubModuleLoad();
             try
             {
-                Settings settings = FileDatabase.Get<Settings>(Settings.SettingsInstanceID);
-                if (settings == null) settings = new Settings();
-                SettingsDatabase.RegisterSettings(settings);
+                //Settings settings = FileDatabase.Get<Settings>(Settings.SettingsInstanceID);
+                //if (settings == null) settings = new Settings();
+                //SettingsDatabase.RegisterSettings(settings);
 
                 var harmony = new Harmony("mod.modlib.patches.mipen");
                 harmony.PatchAll();
