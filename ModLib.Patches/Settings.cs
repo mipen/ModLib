@@ -1,5 +1,4 @@
-﻿using ModLib.Definitions;
-using ModLib.Definitions.Attributes;
+﻿using ModLib.Attributes;
 using System.Xml.Serialization;
 
 namespace ModLib.Patches
@@ -13,14 +12,14 @@ namespace ModLib.Patches
         {
             get
             {
-                return (Settings)SettingsDatabase.GetSettings<Settings>();
+                return (Settings)SettingsDatabase.GetSettings(SettingsInstanceID);
             }
         }
 
         [XmlElement]
         public override string ID { get; set; } = SettingsInstanceID;
         [XmlElement]
-        [SettingProperty("Enable Crash Error Reporting", "In the event of a crash, shows a message box displaying the cause of the crash.")]
+        [SettingProperty("Enable Crash Error Reporting", "When enabled, shows a message box showing the cause of a crash.")]
         [SettingPropertyGroup("Debugging")]
         public bool DebugMode { get; set; } = true;
 
