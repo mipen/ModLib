@@ -1,6 +1,7 @@
 ﻿using ModLib.Debugging;
 using ModLib.GUI.GauntletUI;
 using System;
+using System.Windows.Forms;
 using TaleWorlds.Engine.Screens;
 using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
@@ -22,9 +23,7 @@ namespace ModLib
                     ScreenManager.PushScreen(new ModOptionsGauntletScreen());
                 }, false));
             }
-#pragma warning disable CA1031 // Do not catch general exception types
             catch (Exception ex)
-#pragma warning restore CA1031 // Do not catch general exception types
             {
                 ModDebug.ShowError($"An error occurred whilst initialising ModLib", "Error during initialisation", ex);
             }
@@ -32,6 +31,7 @@ namespace ModLib
 
         protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
+            SettingsDatabase.LoadAllSettings();
             SettingsDatabase.BuildModSettingsVMs();
         }
     }

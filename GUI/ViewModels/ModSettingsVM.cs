@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModLib.Definitions;
+using System;
 using TaleWorlds.Library;
 
 namespace ModLib.GUI.ViewModels

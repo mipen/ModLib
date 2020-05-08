@@ -1,13 +1,14 @@
 ﻿using ModLib.Debugging;
+using ModLib.Definitions;
 using ModLib.GUI.ViewModels;
-using ModLib.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace ModLib
 {
-    public static class SettingsDatabase
+    internal static class SettingsDatabase
     {
         private static List<ModSettingsVM> _modSettingsVMs = null;
         private static Dictionary<string, SettingsBase> AllSettingsDict { get; } = new Dictionary<string, SettingsBase>();
@@ -31,7 +32,7 @@ namespace ModLib
         /// </summary>
         /// <param name="settings">Intance of the settings object to be registered with the SettingsDatabase.</param>
         /// <returns>Returns true if successful. Returns false if the object's ID key is already present in the SettingsDatabase.</returns>
-        public static bool RegisterSettings(SettingsBase settings)
+        private static bool RegisterSettings(SettingsBase settings)
         {
             if (settings == null) throw new ArgumentNullException(nameof(settings));
             if (!AllSettingsDict.ContainsKey(settings.ID))
@@ -52,7 +53,7 @@ namespace ModLib
         /// </summary>
         /// <param name="uniqueID">The ID for the settings instance.</param>
         /// <returns>Returns the settings instance with the given ID. Returns null if nothing can be found.</returns>
-        public static ISerialisableFile GetSettings(string uniqueID)
+        internal static SettingsBase GetSettings(string uniqueID)
         {
             if (AllSettingsDict.ContainsKey(uniqueID))
             {
@@ -67,7 +68,7 @@ namespace ModLib
         /// </summary>
         /// <param name="settingsInstance">Instance of the settings object to save to file.</param>
         /// <returns>Return true if the settings object was saved successfully. Returns false if it failed to save.</returns>
-        public static bool SaveSettings(SettingsBase settingsInstance)
+        internal static bool SaveSettings(SettingsBase settingsInstance)
         {
             if (settingsInstance == null) throw new ArgumentNullException(nameof(settingsInstance));
             return FileDatabase.SaveToFile(settingsInstance.ModuleFolderName, settingsInstance, FileDatabase.Location.Configs);
@@ -78,7 +79,7 @@ namespace ModLib
         /// </summary>
         /// <param name="settingsInstance">The instance of the object to be reset</param>
         /// <returns>Returns the instance of the new object with default values.</returns>
-        public static SettingsBase ResetSettingsInstance(SettingsBase settingsInstance)
+        internal static SettingsBase ResetSettingsInstance(SettingsBase settingsInstance)
         {
             if (settingsInstance == null) throw new ArgumentNullException(nameof(settingsInstance));
             string id = settingsInstance.ID;
@@ -96,6 +97,47 @@ namespace ModLib
                 return true;
             }
             return false;
+        }
+
+        internal static void LoadAllSettings()
+        {
+            List<Type> types = new List<Type>();
+
+            foreach (var assem in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                var list = (from t in assem.GetTypes()
+                            where t != typeof(SettingsBase) && t.IsSubclassOf(typeof(SettingsBase)) && !t.IsAbstract && !t.IsInterface
+                            select t).ToList();
+
+                if (list.Any())
+                    types.AddRange(list);
+            }
+
+            if (types.Any())
+            {
+                foreach (var t in types)
+                {
+                    LoadSettingsFromType(t);
+                }
+            }
+        }
+
+        internal static void LoadSettingsFromType(Type t)
+        {
+            SettingsBase defaultSB = (SettingsBase)Activator.CreateInstance(t);
+            SettingsBase sb = FileDatabase.Get<SettingsBase>(defaultSB.ID);
+            if (sb == null)
+            {
+                string path = Path.Combine(FileDatabase.GetPathForModule(defaultSB.ModuleFolderName, FileDatabase.Location.Configs), FileDatabase.GetFileNameFor(defaultSB));
+                if (File.Exists(path))
+                {
+                    FileDatabase.LoadFromFile(path);
+                    sb = FileDatabase.Get<SettingsBase>(defaultSB.ID);
+                }
+                if (sb == null)
+                    sb = defaultSB;
+            }
+            RegisterSettings(sb);
         }
 
         internal static void BuildModSettingsVMs()

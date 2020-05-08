@@ -1,5 +1,6 @@
 ﻿using ModLib.Debugging;
-using ModLib.Interfaces;
+using ModLib.Definitions;
+using ModLib.Definitions.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -154,9 +155,13 @@ namespace ModLib
             if (loadable == null)
                 throw new ArgumentNullException(nameof(loadable), "Tried to add something to the FileDatabase Data dictionary that was null");
             if (string.IsNullOrWhiteSpace(loadable.ID))
-                throw new ArgumentNullException($"Loadable of type {loadable.GetType().ToString()} has missing ID field");
+                throw new ArgumentNullException($"Loadable of type {loadable.GetType()} has missing ID field");
 
             Type type = loadable.GetType();
+            //Special case for settings. We want them to all be saved under the SettingsBase key.
+            if (type.IsSubclassOf(typeof(SettingsBase)))
+                type = typeof(SettingsBase);
+
             if (!Data.ContainsKey(type))
                 Data.Add(type, new Dictionary<string, ISerialisableFile>());
 
@@ -169,7 +174,7 @@ namespace ModLib
                 Data[type].Add(loadable.ID, loadable);
         }
 
-        private static void LoadFromFile(string filePath)
+        internal static void LoadFromFile(string filePath)
         {
             using (XmlReader reader = XmlReader.Create(filePath))
             {
