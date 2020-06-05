@@ -7,9 +7,8 @@ namespace ModLib.Patches
 {
     public class ModLibPatchesSubModule : MBSubModuleBase
     {
-        protected override void OnSubModuleLoad()
+        protected override void OnBeforeInitialModuleScreenSetAsRoot()
         {
-            base.OnSubModuleLoad();
             try
             {
                 //Settings settings = FileDatabase.Get<Settings>(Settings.SettingsInstanceID);
